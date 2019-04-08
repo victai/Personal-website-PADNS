@@ -1,5 +1,6 @@
 <?php
     include "connect.php";
+    ini_set("session.cookie_httponly", 1);
     session_start();
     $counter_name = "counter.txt";
     if (!file_exists($counter_name)) {
@@ -32,7 +33,7 @@
     if (isset($_COOKIE['counter'])) {
         $count = $_COOKIE['counter'] + 1;
     }
-    setcookie('counter', $count, time() + 30*24*60*60);
+    setcookie('counter', $count, time() + 30*24*60*60, $secure=True, $httponly=True);
 ?>
 
 <?php
@@ -40,7 +41,7 @@
     if (!isset($_COOKIE['unique_ID'])) {
         $id = generateRandomString();
         $_COOKIE['unique_ID'] = $id;
-        setcookie('unique_ID', $id, time() + 30*24*60*60);
+        setcookie('unique_ID', $id, time() + 30*24*60*60, $secure=True, $httponly=True);
     }
 ?>
 

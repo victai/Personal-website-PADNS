@@ -1,6 +1,6 @@
 <?php
     include "connect.php";
-    ini_set("session.cookie_httponly", 1);
+    #ini_set("session.cookie_httponly", 1);
     session_start();
     $counter_name = "counter.txt";
     if (!file_exists($counter_name)) {
@@ -14,10 +14,9 @@
     $counterVal = fread($f, filesize($counter_name));
     fclose($f);
     chmod($f, 0777);
-
     if (!isset($_SESSION['hasVisited'])) {
         $_SESSION['hasVisited'] = "yes";
-        $counterVal++;
+        $counterVal = $counterVal + 1;
         if (is_writable($counter_name)){
             $f = fopen($counter_name, "w");
             fwrite($f, $counterVal);
@@ -33,7 +32,7 @@
     if (isset($_COOKIE['counter'])) {
         $count = $_COOKIE['counter'] + 1;
     }
-    setcookie('counter', $count, time() + 30*24*60*60, $secure=True, $httponly=True);
+    setcookie('counter', $count, time() + 31*24*60*60);
 ?>
 
 <?php
@@ -41,7 +40,7 @@
     if (!isset($_COOKIE['unique_ID'])) {
         $id = generateRandomString();
         $_COOKIE['unique_ID'] = $id;
-        setcookie('unique_ID', $id, time() + 30*24*60*60, $secure=True, $httponly=True);
+        setcookie('unique_ID', $id, time() + 30*24*60*60);
     }
 ?>
 
